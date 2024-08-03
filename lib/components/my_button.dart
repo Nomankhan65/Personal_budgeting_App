@@ -35,7 +35,7 @@ class MyButton extends StatelessWidget {
           ),
           onPressed:onTap,
           child: isLoading
-              ? const SizedBox(height:28,width:28,child: CircularProgressIndicator(color: Colors.white,strokeWidth:2.5,))
+              ? SizedBox(height:28,width:28,child: CircularProgressIndicator(color:titleColor,strokeWidth:2.5,))
               : MyText(
             color:titleColor.withOpacity(0.6),
             text:title, fontSize: 17,spacing:1,),
