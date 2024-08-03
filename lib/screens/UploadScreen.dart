@@ -42,6 +42,7 @@ class _UploadScreenState extends State<UploadScreen> {
       body: Form(
         key:formKey,
         child: Column(children: [
+          const SizedBox(height:50,),
           MyTextField(controller: categoryController, label:'Category', hintText:'Enter category name'),
           MyTextField(controller: totalAmountController, label:'Total amount', hintText:'Enter total amount',type:TextInputType.number,),
           MyTextField(controller: totalSpentController, label:'Spent amount', hintText:'Enter spent amount',type:TextInputType.number,),
@@ -51,7 +52,6 @@ class _UploadScreenState extends State<UploadScreen> {
             onTap: () async{
               var id = DateTime.now().millisecondsSinceEpoch;
               if (formKey.currentState!.validate()) {
-
                 try{
                   setState(() {
                     loading=true;

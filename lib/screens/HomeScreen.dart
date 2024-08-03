@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:personal_budgeting_app/components/colors.dart';
+import 'package:personal_budgeting_app/screens/EditScreen.dart';
 import 'package:personal_budgeting_app/screens/UploadScreen.dart';
 
 import '../components/my_text.dart';
@@ -53,18 +54,14 @@ class _HomeScreenState extends State<HomeScreen> {
         appBar: AppBar(
           backgroundColor: Colors.transparent, // Fully transparent AppBar
           elevation: 0, // No shadow
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              const CircleAvatar(
-                backgroundColor: Colors.transparent,
-                radius: 25,
-                backgroundImage: AssetImage('assets/images/profile.png'),
-              ),
-              const SizedBox(width: 20),
-              MyText(text:'Budget categories',color:titleColor, fontSize: 23), // Replace MyText with Text for simplicity
-            ],
+          title: MyText(text:'Budget categories',color:titleColor, fontSize: 23),
+          actions: const [CircleAvatar(
+            backgroundColor: Colors.transparent,
+            radius: 25,
+            backgroundImage: AssetImage('assets/images/profile.png'),
           ),
+          SizedBox(width:15,)
+          ],
         ),
         body: StreamBuilder(
           stream: FirebaseFirestore.instance.collection('BudgetCategories').snapshots(),
@@ -109,13 +106,18 @@ class _HomeScreenState extends State<HomeScreen> {
                         children: [
                           Row(
                             children: [
-                              MyText(text: data['category'],
-                                  color: Colors.white,
-                                  fontSize: 22),
-                              SizedBox(width: width * 0.2),
-                              MyText(text: '\$${data['totalAmount']}',
-                                  color: Colors.white,
-                                  fontSize: 22),
+                              Expanded(
+                                flex:3,
+                                child: MyText(text: data['category'],
+                                    color: Colors.white,
+                                    fontSize: 22),
+                              ),
+                              Expanded(
+                                flex:2,
+                                child: MyText(text: '\$${data['totalAmount']}',
+                                    color: Colors.white,
+                                    fontSize: 22),
+                              ),
                             ],
                           ),
                           SizedBox(height: height * 0.01),
@@ -128,6 +130,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                 color: titleColor,
                                 fontSize: 20,),
                               InkWell(
+                                onTap: (){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>EditScreen(
+                                      id:data['id'],
+                                      category: data['category'],
+                                      totalAmount:data['totalAmount'],
+                                      spentAmount: data['spentAmount'])));
+                                },
                                 child: Container(
                                   width: width * 0.35,
                                   height: 40,
